@@ -10,7 +10,8 @@ def home():
     return render_template('index.html')
 
 # Load your Samburu-English dictionary
-df = pd.read_csv('data/dictionary.xlsx')
+import pandas as pd
+df = pd.read_excel('data/dictionary.xlsx')
 
 # Basic lookup function
 def lookup_word(user_input):
