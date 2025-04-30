@@ -5,6 +5,10 @@ import pandas as pd
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 # Load your Samburu-English dictionary
 df = pd.read_csv('data/dictionary.xlsx')
 
