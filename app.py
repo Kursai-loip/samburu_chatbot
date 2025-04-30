@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load your Samburu-English dictionary
-df = pd.read_csv('data/dictionary.csv')
+df = pd.read_csv('data/dictionary.xlsx')
 
 # Basic lookup function
 def lookup_word(user_input):
@@ -16,9 +16,10 @@ def lookup_word(user_input):
         for _, row in matches.iterrows():
             entry = {
                 "samburu": row["samburu"],
-                "english": row["english"],
+                "transcription": row["transcription"],
                 "pos": row.get("part_of_speech", ""),
-                "example": row.get("example", "")
+                "inflectionfeatures": row["inflectionfeatures"],
+                "english": row.get("english", "")
             }
             response.append(entry)
         return response
@@ -33,5 +34,5 @@ def chat():
     response_data = lookup_word(user_message)
     return jsonify(success=True, message=response_data)
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     app.run(debug=True)
