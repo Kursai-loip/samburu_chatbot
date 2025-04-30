@@ -448,7 +448,7 @@
                 data.append('language', language);
                 
                 // Make the API request
-                fetch('https://samburu-chatbot.onrender.com/', {
+                fetch('https://samburu-chatbot.onrender.com/chat', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -466,9 +466,17 @@
                     messagesContainer.removeChild(thinkingElement);
                     
                     if (data.success) {
-                        addMessage(data.message, 'bot');
-                    } else {
-                        addMessage(`Error: ${data.error}`, 'bot');
+                        const messages = data.message.map(entry => {
+                            if (entry.error) return entry.error;
+                            return `
+                                Samburu: ${entry.samburu}
+                                Transcription: ${entry.transcription}
+                                POS: ${entry.pos}
+                                Features: ${entry.inflectionfeatures}
+                                English: ${entry.english}
+                            `;
+                        }).join('\n\n');
+                        addMessage(messages, 'bot');
                     }
                 })
                 .catch(error => {
