@@ -463,7 +463,16 @@
                     messagesContainer.removeChild(thinkingElement);
                     
                     if (data.success) {
-                        const messages = data.message.map(entry => {
+                        const seen = new Set();
+                        const uniqueMessages = data.message.filter(entry => {
+                            const key = JSON.stringify(entry);
+                            if (seen.has(key)) return false;
+                            seen.add(key);
+                            return true;
+                        });
+
+                        // Display unique messages
+                        const messages = uniqueMessages.map(entry => {
                             if (entry.error) return entry.error;
                             return `
                                 Samburu: ${entry.samburu}
